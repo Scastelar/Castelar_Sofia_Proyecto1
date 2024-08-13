@@ -4,8 +4,6 @@ import javax.swing.JOptionPane;
 
 public class cuentasStratego {
     private static cuentasStratego instance;
-    private Usuario[] usuarios;
-    private int numeroUsuarios;
     private Usuario cuentas[];
     private Usuario actual;
     private int contador;
@@ -17,7 +15,6 @@ public class cuentasStratego {
    
     private cuentasStratego() {
         cuentas = new Usuario[100];
-        numeroUsuarios = 0;
         actual = null;
         contador = 0;
         contadorTotal = 0;
@@ -219,28 +216,24 @@ public Usuario buscar(String cuenta) {
             }
         }
     }
-    
-    public int obtenerUsuariosActivos() {
-        return numeroUsuarios;
-    }
-
-    public String obtenerNombreUsuarioPorIndice(int indice) {
-        if (indice >= 0 && indice < numeroUsuarios) {
-            return usuarios[indice].getCuenta();
+   
+    public String getNombreUsuarioPorIndice(int indice) {
+        if (indice >= 0 && indice < contador) {
+            return cuentas[indice].getCuenta();
         }
         return null;
     }
 
-    public Usuario obtenerUsuarioPorNombre(String nombre) {
-        for (int i = 0; i < numeroUsuarios; i++) {
-            if (usuarios[i].getCuenta().equalsIgnoreCase(nombre)) {
-                return usuarios[i];
+    public Usuario getUsuarioPorNombre(String nombre) {
+        for (int i = 0; i < contador; i++) {
+            if (cuentas[i].getCuenta().equalsIgnoreCase(nombre)) {
+                return cuentas[i];
             }
         }
         return null;
     }
 
     public boolean usuarioExiste(String nombre) {
-        return obtenerUsuarioPorNombre(nombre) != null;
+        return getUsuarioPorNombre(nombre) != null;
     }
 }

@@ -64,10 +64,10 @@ public class Seleccionar extends JFrame implements ActionListener {
     }
 
     private String[] obtenerNombresUsuariosActivos() {
-        int cantidadUsuariosActivos = cuentasStratego.getInstance().obtenerUsuariosActivos();
+        int cantidadUsuariosActivos = cuentasStratego.getInstance().getUsuariosActivos();
         String[] usuarios = new String[cantidadUsuariosActivos];
         for (int i = 0; i < cantidadUsuariosActivos; i++) {
-            usuarios[i] = cuentasStratego.getInstance().obtenerNombreUsuarioPorIndice(i);
+            usuarios[i] = cuentasStratego.getInstance().getNombreUsuarioPorIndice(i);
         }
         
         return usuarios;

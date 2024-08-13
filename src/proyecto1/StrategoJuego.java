@@ -11,12 +11,10 @@ import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
@@ -44,52 +42,52 @@ public class StrategoJuego extends JFrame implements ActionListener {
     cuentasStratego cuentas;
     
     public StrategoJuego(){
-        setTitle("Stratego - Marvel Heroes");
-        this.getContentPane().setLayout(null);
-        this.getContentPane().setBackground(new java.awt.Color(204, 204, 255));
-        titulo.setBounds(350, 0, 300, 90);
-        titulo.setFont(new java.awt.Font("Trebuchet MS", 1, 40));
-        titulo.setForeground(new java.awt.Color(0, 51, 102));
-        add(titulo);
-        
-        //BOTON DE RETIRO
-        retirar.setBounds(10,10,150,40);
-        retirar.setBackground(Color.red);
-        retirar.setForeground(Color.white);
-        retirar.addActionListener(this);
-        add(retirar);
-        
-        turno.setBounds(170, 470, 200, 100);
-        turno.setText("Turno Actual: " + turnoActual);
-        add(turno);
-        
-        Juego();
-        cuentas = cuentasStratego.getInstance();
-        
-        
-        //MOSTRAR FICHAS ELIMINADAS
-        heroesEliminados.setBounds(620,80,200,200);
-        heroesEliminados.setLayout(new FlowLayout());
-        add(heroesEliminados);
-        
-        villanosEliminados.setBounds(620,300,200,200);
-        villanosEliminados.setLayout(new FlowLayout());
-        villanosEliminados.setBackground(Color.black);
-        add(villanosEliminados);
-        
-        
-        //MOSTRAR FICHA SELECCIONADA
-        personajePanel.setBounds(20,100,120,140);
-        personajePanel.setLayout(new FlowLayout());
-        add(personajePanel);
-        personajeDatos.setBounds(20, 250, 150, 300);
-        personajeDatos.setBackground(new java.awt.Color(204, 204, 255));
-        add(personajeDatos);
-       
-        setSize(870,650);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); 
-        this.setLocationRelativeTo(this);
-        this.setVisible(true);
+    setTitle("Stratego - Marvel Heroes");
+    this.getContentPane().setLayout(null);
+    this.getContentPane().setBackground(new java.awt.Color(204, 204, 255));
+    titulo.setBounds(350, 0, 300, 90);
+    titulo.setFont(new java.awt.Font("Trebuchet MS", 1, 40));
+    titulo.setForeground(new java.awt.Color(0, 51, 102));
+    add(titulo);
+
+    //BOTON DE RETIRO
+    retirar.setBounds(10,10,150,40);
+    retirar.setBackground(Color.red);
+    retirar.setForeground(Color.white);
+    retirar.addActionListener(this);
+    add(retirar);
+
+    turno.setBounds(170, 470, 200, 100);
+    turno.setText("Turno Actual: " + turnoActual);
+    add(turno);
+
+    Juego();
+    cuentas = cuentasStratego.getInstance();
+
+
+    //MOSTRAR FICHAS ELIMINADAS
+    heroesEliminados.setBounds(620,80,200,200);
+    heroesEliminados.setLayout(new FlowLayout());
+    add(heroesEliminados);
+
+    villanosEliminados.setBounds(620,300,200,200);
+    villanosEliminados.setLayout(new FlowLayout());
+    villanosEliminados.setBackground(Color.black);
+    add(villanosEliminados);
+
+
+    //MOSTRAR FICHA SELECCIONADA
+    personajePanel.setBounds(20,100,120,140);
+    personajePanel.setLayout(new FlowLayout());
+    add(personajePanel);
+    personajeDatos.setBounds(20, 250, 150, 300);
+    personajeDatos.setBackground(new java.awt.Color(204, 204, 255));
+    add(personajeDatos);
+
+    setSize(870,650);
+    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); 
+    this.setLocationRelativeTo(this);
+    this.setVisible(true);
     }
     
     public void Juego() {
@@ -137,36 +135,49 @@ public class StrategoJuego extends JFrame implements ActionListener {
     }
 
     private void colocarPersonajesAleatorios(Personaje[] heroes, Personaje[] villanos) {
-        //HEROES
-        for (int i = 4; i < heroes.length; i++) { 
-            Personaje personaje = heroes[i];
-            boolean colocado = false;
-            while (!colocado) {
-                int fila = random.nextInt(0, 4);
-                int columna = encontrarPosicionDisponibleEnFila(fila);
-                if (columna != -1) {
-                    colocarFichaEnPosicion(personaje, fila, columna);
-                    colocado = true; 
-                } else {
-                }
+    //HEROES
+    for (int i = 4; i < heroes.length; i++) { 
+        Personaje personaje = heroes[i];
+        boolean colocado = false;
+        while (!colocado) {
+            int fila, columna;
+            if (personaje.getRango() == 2) {
+                fila = random.nextInt(2) + 2; 
+            } else {
+                fila = random.nextInt(4);
             }
-        }
-    
-        //VILLANOS
-        for (int i = 4; i < villanos.length; i++) {
-            Personaje personaje = villanos[i];
-            boolean colocado = false;
-            while (!colocado) {
-                System.out.println("Intentando colocar " + personaje.getName());
-                int fila = random.nextInt(6, 10);
-                int columna = encontrarPosicionDisponibleEnFila(fila);
-                if (columna != -1) {
-                    colocarFichaEnPosicion(personaje, fila, columna);
-                    colocado = true; 
-                } 
-            }
+
+            columna = encontrarPosicionDisponibleEnFila(fila);
+
+            if (columna != -1) {
+                colocarFichaEnPosicion(personaje, fila, columna);
+                colocado = true;
+            } 
         }
     }
+
+    //VILLANOS
+    for (int i = 4; i < villanos.length; i++) {
+        Personaje personaje = villanos[i];
+        boolean colocado = false;
+        while (!colocado) {
+            int fila, columna;
+            if (personaje.getRango() == 2) {
+                fila = random.nextInt(2) + 6; 
+            } else {
+                fila = random.nextInt(4)+6;
+            }
+
+            columna = encontrarPosicionDisponibleEnFila(fila);
+
+            if (columna != -1) {
+                colocarFichaEnPosicion(personaje, fila, columna);
+                colocado = true;
+            } 
+        }
+    }
+    }
+    
     private void colocarPersonajes() {
     // COLOCAR TIERRA
     int columnaTierra = random.nextInt(8) + 1;
@@ -185,50 +196,22 @@ public class StrategoJuego extends JFrame implements ActionListener {
     colocarFichaEnPosicion(Personaje.PumpkinBomb, 8, columnaTierraObtenida); // Enfrente
     colocarFichaEnPosicion(Personaje.PumpkinBomb, 9, columnaTierraObtenida - 1); // Izquierda
     colocarFichaEnPosicion(Personaje.PumpkinBomb, 9, columnaTierraObtenida + 1); // Derecha
-
-    //COLOCAR RANGO 2
-    colocarFichasRango2(heroes, 2, 3); 
-    colocarFichasRango2(villanos, 6, 7); 
-}
-
-private void colocarFichasRango2(Personaje[] bando, int filaInicio, int filaFin) {
-    for (Personaje personaje : bando) {
-        if (personaje != null) {
-            try {
-                if (personaje.getRango() == 2) {
-                    boolean colocado = false;
-                    while (!colocado) {
-                        int fila = random.nextInt(filaFin - filaInicio + 1) + filaInicio;
-                        int columna = random.nextInt(10);
-                        if (personajes[fila][columna] == null) {
-                            colocarFichaEnPosicion(personaje, fila, columna);
-                            colocado = true;
-                        }
-                    }
-                }
-            } catch (NullPointerException e) {
-                System.out.println("Error al intentar colocar la ficha: " + personaje.getName() + ". Ficha con rango inválido.");
-            }
-        }
     }
-}
-
-
 
     private void configurarVisibilidadInicial() {
         turnoActual = "Heroes";
-    if (turnoActual.equals("Heroes")) {
-        turnoActual = "Heroes";
-        turno.setText("Turno Actual: " + turnoActual);
-        ocultarFichasDelBandoContrario();
-        mostrarFichasDelBandoActivo();
-    } else {
-        turnoActual = "Villanos";
-        turno.setText("Turno Actual: " + turnoActual);
-        ocultarFichasDelBandoContrario();
-        mostrarFichasDelBandoActivo();
+        if (turnoActual.equals("Heroes")) {
+            turnoActual = "Heroes";
+            turno.setText("Turno Actual: " + turnoActual);
+            ocultarFichasDelBandoContrario();
+            mostrarFichasDelBandoActivo();
+        } else {
+            turnoActual = "Villanos";
+            turno.setText("Turno Actual: " + turnoActual);
+            ocultarFichasDelBandoContrario();
+            mostrarFichasDelBandoActivo();
+        }
     }
-}
 
     private int encontrarPosicionDisponibleEnFila(int fila) {
         for (int columna = 0; columna < 10; columna++) {
@@ -240,63 +223,78 @@ private void colocarFichasRango2(Personaje[] bando, int filaInicio, int filaFin)
     }
 
     private void colocarFichaEnPosicion(Personaje personaje, int fila, int columna) {
-    if (columna >= 0 && columna < 10) {
-        if (personajes[fila][columna] == null) {
-            personajes[fila][columna] = personaje;
-            setButtonIcon(buttons[fila][columna], personaje.getName());
-        } 
+        if (columna >= 0 && columna < 10) {
+            if (personajes[fila][columna] == null) {
+                personajes[fila][columna] = personaje;
+                setButtonIcon(buttons[fila][columna], personaje.getName());
+            } 
+        }
     }
-}
 
  private class Funciones implements ActionListener {
      
-    public void actionPerformed(ActionEvent event) {
-        
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (event.getSource() == buttons[i][j]) {
-                    if (personajeSeleccionado == null) {
-                        seleccionarPersonaje(i, j);
-                        botonSeleccionado.setBorder(BorderFactory.createLineBorder(Color.pink));
-                                               
-                        ImageIcon icono = new ImageIcon("src\\imagenes\\"+personajes[i][j].getName()+".png");
-                        Image imagen = icono.getImage(); 
-                        Image imagenEscalada = imagen.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH);  
-                        icono = new ImageIcon(imagenEscalada);
-                        JLabel imagenLabel = new JLabel(icono);
-                        buttons[i][j].setIcon(icono);
-                        personajePanel.removeAll();
-                        personajePanel.add(imagenLabel);
-                        personajePanel.revalidate();
-                        personajePanel.repaint();
+     public void actionPerformed(ActionEvent event) {
+          for (int i = 0; i < 10; i++) {
+          for (int j = 0; j < 10; j++) {
+             if (event.getSource() == buttons[i][j]) {
+                if (personajeSeleccionado == null) {
+                    seleccionarPersonaje(i, j);
 
-                        String atributos = " Nombre: " +  personajes[i][j].getName() +
-                                            "\n Bando: " +  personajes[i][j].getBando() +
-                                            "\n Rango: " +  personajes[i][j].getRango();
-                        personajeDatos.setText(atributos);
-                        
-                        buttons[i][j].revalidate();
-                        buttons[i][j].repaint();
-                        personajeDatos.revalidate();
-                        personajeDatos.repaint();
+                if (botonSeleccionado != null) {
+                    if (personajes[i][j] != null) {
+                        botonSeleccionado.setBorder(BorderFactory.createLineBorder(Color.pink));
                     } else {
-                    if (buttons[i][j] == botonSeleccionado) {
-                        resetSeleccion();
-                        } else if (personajes[i][j] == null) {
-                            moverPersonaje(i, j);
-                            cambiarTurno();
-                            System.out.println(turnoActual);
-                        } else {
-                            atacarPersonaje(i, j);
-                            cambiarTurno();
-                            System.out.println(turnoActual);
-                            turno.setText("Turno Actual: " + turnoActual);
-                        }
+                        botonSeleccionado.setBorder(BorderFactory.createLineBorder(Color.gray));
+                    }
+                }
+                botonSeleccionado = buttons[i][j];
+                if (botonSeleccionado != null) {
+                    if (personajes[i][j] != null) {
+                        botonSeleccionado.setBorder(BorderFactory.createLineBorder(Color.pink));
+                    } else {
+                        botonSeleccionado.setBorder(BorderFactory.createLineBorder(Color.gray));
+                    }
+            }
+
+                 if (personajes[i][j] != null) {                         
+                    ImageIcon icono = new ImageIcon("src\\imagenes\\"+personajes[i][j].getName()+".png");
+                    Image imagen = icono.getImage(); 
+                    Image imagenEscalada = imagen.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH);  
+                    icono = new ImageIcon(imagenEscalada);
+                    JLabel imagenLabel = new JLabel(icono);
+                    buttons[i][j].setIcon(icono);
+                    personajePanel.removeAll();
+                    personajePanel.add(imagenLabel);
+                    personajePanel.revalidate();
+                    personajePanel.repaint();
+                    String atributos = " Nombre: " +  personajes[i][j].getName() +
+                                        "\n Bando: " +  personajes[i][j].getBando() +
+                                        "\n Rango: " +  personajes[i][j].getRango();
+                    personajeDatos.setText(atributos);
+
+                    buttons[i][j].revalidate();
+                    buttons[i][j].repaint();
+                    personajeDatos.revalidate();
+                    personajeDatos.repaint();
+                 }
+                } else {
+                if (buttons[i][j] == botonSeleccionado) {
+                    resetSeleccion();
+                    } else if (personajes[i][j] == null) {
+                        moverPersonaje(i, j);
+                        cambiarTurno();
+                        System.out.println(turnoActual);
+                    } else {
+                        atacarPersonaje(i, j);
+                        cambiarTurno();
+                        turno.setText("Turno Actual: " + turnoActual);
                     }
                 }
             }
         }
+      }
     }
+        
                 
 
     public void seleccionarPersonaje(int i, int j) {
@@ -371,7 +369,7 @@ private void colocarFichasRango2(Personaje[] bando, int filaInicio, int filaFin)
 
         if (difFila > 1 || difCol > 1) {
             if (personajeSeleccionado.getRango() != 2) {
-                JOptionPane.showMessageDialog(null, "Solo las fichas de rango 2 pueden atacar a fichas no adyacentes");
+                JOptionPane.showMessageDialog(null, "Solo las fichas de rango 2 pueden mover mas de un espacio");
                 return;
             }
         }
@@ -381,14 +379,7 @@ private void colocarFichasRango2(Personaje[] bando, int filaInicio, int filaFin)
             return;
         }
 
-        if (Ganar()) {
-            JOptionPane.showMessageDialog(null, "GANADOR: " + turnoActual);
-            cuentas.incrementarPartidas();
-            new MenuPrincipal().setVisible(true);
-            setVisible(false);
-            
-            
-        }
+        
         if (personajeSeleccionado.getBando() != personajes[i][j].getBando()) {
             String resultado = resolverAtaque(i, j);
             JOptionPane.showMessageDialog(null, resultado);
@@ -399,28 +390,7 @@ private void colocarFichasRango2(Personaje[] bando, int filaInicio, int filaFin)
         }
     }
     
-    private boolean Ganar() {
-        for (int i = 0; i < personajes.length; i++) {
-            for (int j = 0; j < personajes[i].length; j++) {
-                if (personajes[i][j] != null) {
-                    if (personajes[i][j].getName().equals("Tierra") && personajes[i][j].getBando().equals("Heroes")) {
-                        return false;
-                    } else if (personajes[i][j].getName().equals("TierraObtenida") && personajes[i][j].getBando().equals("Villanos")) {
-                        return false;
-                    }
-                }
-            }
-        }
-        if (turnoActual.equals("Heroes")) {
-            JOptionPane.showMessageDialog(null, "GANADOR: Villanos");
-        } else {
-            JOptionPane.showMessageDialog(null, "GANADOR: Heroes");
-        }
-        return true;
-        
-    }
-
-
+    
     private String resolverAtaque(int i, int j) {
         if (personajeSeleccionado == null || personajes[i][j] == null) {
             return "Error: Una de las fichas es nula.";
@@ -428,10 +398,13 @@ private void colocarFichasRango2(Personaje[] bando, int filaInicio, int filaFin)
 
         String resultado = "";
         if (personajes[i][j].getName().equals("Tierra") || personajes[i][j].getName().equals("TierraObtenida")){
-            Ganar();
             new MenuPrincipal().setVisible(true);
             setVisible(false);
-            resultado = "Juego Completado";
+            if (turnoActual.equals("Heroes")) {
+            JOptionPane.showMessageDialog(null, "GANADOR: Villanos");
+        } else {
+            JOptionPane.showMessageDialog(null, "GANADOR: Heroes");
+        }
             
         } else if (personajeSeleccionado.getRango()==3 && 
             (personajes[i][j].getName().equals("NovaBlast") || personajes[i][j].getName().equals("PumpkinBomb"))) {
@@ -539,7 +512,7 @@ private void colocarFichasRango2(Personaje[] bando, int filaInicio, int filaFin)
     button.setIcon(new ImageIcon(imagenEscalada));
     button.revalidate();
     button.repaint();
-}
+    }
    
    private void ocultarFichasDelBandoContrario() {
         for (int i = 0; i < personajes.length; i++) {
@@ -584,7 +557,7 @@ private void colocarFichasRango2(Personaje[] bando, int filaInicio, int filaFin)
     turno.setText("Turno Actual: " + turnoActual);
     ocultarFichasDelBandoContrario();
     mostrarFichasDelBandoActivo();
-}
+    }
    
     private void arregloBandos(){
         //HEROES
